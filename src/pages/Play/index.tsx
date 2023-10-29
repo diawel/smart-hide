@@ -59,8 +59,8 @@ const Play: React.FC = () => {
   useEffect(() => {
     socketRef.current = new ReconnectingWebSocket(
       // `ws://${location.hostname}:5050`
-      'wss://b111wc69-5050.asse.devtunnels.ms/'
-      // 'wss://smart-hide-backend.onrender.com'
+      // 'wss://b111wc69-5050.asse.devtunnels.ms/'
+      'wss://smart-hide-backend.onrender.com'
     )
 
     return () => {
