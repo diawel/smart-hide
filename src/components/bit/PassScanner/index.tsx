@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { canvas, container, video } from './index.css'
+import jsQR from 'jsqr'
 
 export type PassScannerProps = {
   onScan: (result: string) => void
@@ -138,12 +139,14 @@ const PassScanner: React.FC<PassScannerProps> = ({ onScan }) => {
           const hDist = Math.sqrt(hDistanceSum / markersHsl.length)
           const sDist = Math.sqrt(sDistanceSum / markersHsl.length)
           console.log(hAverage, sAverage, hDist, sDist)
+          const code = jsQR(imageData.data, imageData.width, imageData.height)
           if (
             60 < hAverage &&
             hAverage < 65 &&
             0.1 < sAverage &&
             sDist < 0.2 &&
-            0.2 < vAverage
+            0.2 < vAverage &&
+            code?.data == 'smart-hide:pass'
           )
             onScan(canvas.toDataURL())
         }
