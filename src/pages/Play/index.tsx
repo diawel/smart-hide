@@ -98,7 +98,7 @@ const Play: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem(`uuid-${code}`, uuidRef.current)
-  }, [])
+  }, [code])
 
   useEffect(() => {
     if (!_.isEqual(game?.players?.[uuidRef.current], player)) {
