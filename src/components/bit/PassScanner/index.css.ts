@@ -6,7 +6,6 @@ export const container = style({
 })
 
 export const video = style({
-  position: 'absolute',
   top: 0,
   left: 0,
   objectFit: 'cover',
