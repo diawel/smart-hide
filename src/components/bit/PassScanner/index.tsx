@@ -58,11 +58,7 @@ const PassScanner: React.FC<PassScannerProps> = ({ onScan }) => {
           //   code?.location.topLeftCorner.y
           // )
 
-          if (
-            code?.data == 'smart-hide:pass' &&
-            imageData.width / 2 < code.location.topLeftCorner.x &&
-            (imageData.height * 4) / 5 < code.location.topLeftCorner.y
-          ) {
+          if (code?.data == 'smart-hide:pass') {
             onScan(canvas.toDataURL())
           }
         }
