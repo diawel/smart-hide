@@ -46,7 +46,7 @@ const Play: React.FC = () => {
   const { code } = useParams()
   const socketRef = useRef<ReconnectingWebSocket>()
   const uuidRef = useRef<string>(
-    localStorage.getItem('uuid') ?? crypto.randomUUID()
+    localStorage.getItem(`playerName-${code}`) ?? crypto.randomUUID()
   )
   const [player, setPlayer] = useState<Player>({
     name: localStorage.getItem('playerName') ?? 'プレイヤー',
