@@ -4,6 +4,7 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import ContentWithTitle from '../../chunk/ContentWithTitle'
 import QrReader from '../../bit/QrReader'
 import { useState } from 'react'
+import Point from './Point'
 
 export type SeekingProps = {
   uuid: string
@@ -16,7 +17,13 @@ const Seeking: React.FC<SeekingProps> = ({ uuid, code, game, socketRef }) => {
   const [isScanned, setIsScanned] = useState(false)
 
   if (uuid === game.seek?.target)
-    return <ColumnWithTitle title="じっと隠れよう" />
+    return (
+      <ColumnWithTitle title="じっと隠れよう">
+        <ContentWithTitle title="経過時間">
+          <Point since={game.seek!.since} />
+        </ContentWithTitle>
+      </ColumnWithTitle>
+    )
   else
     return (
       <ColumnWithTitle
