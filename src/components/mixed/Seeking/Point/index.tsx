@@ -12,7 +12,7 @@ const Point: React.FC<PointProps> = ({ since }) => {
 
   useEffect(() => {
     const animationFrame = () => {
-      setPoint(Date.now() - since)
+      setPoint((Date.now() - since) / 1000)
 
       animationRef.current = requestAnimationFrame(animationFrame)
     }
