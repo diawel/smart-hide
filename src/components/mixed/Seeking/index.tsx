@@ -28,7 +28,7 @@ const Seeking: React.FC<SeekingProps> = ({ uuid, code, game, socketRef }) => {
             ...game,
             state: 'finished',
           },
-          setPlater: {
+          setPlayer: {
             uuid,
             body: {
               ...game.players[uuid],
