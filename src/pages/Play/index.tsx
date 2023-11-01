@@ -4,26 +4,21 @@ import ReconnectingWebSocket from 'reconnecting-websocket'
 import Setting from '../../components/mixed/Setting'
 import Result from '../../components/mixed/Result'
 import GlobalWrapper from '../../components/chunk/GlobalWrapper'
-import _ from 'lodash'
 import Waiting from '../../components/mixed/Waiting'
 import Ready from '../../components/mixed/Ready'
 import Interval from '../../components/mixed/Interval'
 import Hiding from '../../components/mixed/Hiding'
 import Seeking from '../../components/mixed/Seeking'
 
-export type Player = {
+type Player = {
   name: string
-  icon: string
   state: 'preparing' | 'ready' | 'disconnected'
   score: number
 }
 
-export type Game = {
+export type MetaGame = {
   state: 'preparing' | 'ready' | 'ongoing' | 'finished'
   turn: number
-  players: {
-    [uuid: string]: Player
-  }
   seek?: {
     image: {
       src: string
@@ -31,7 +26,6 @@ export type Game = {
     }
     target: string
     since: number
-    maxScore: number
   }
   hide?: {
     player: string
@@ -42,18 +36,21 @@ export type Game = {
   }
 }
 
+export type Game = MetaGame & {
+  players: {
+    [uuid: string]: Player
+  }
+}
+
 const Play: React.FC = () => {
   const { code } = useParams()
   const socketRef = useRef<ReconnectingWebSocket>()
   const uuidRef = useRef<string>(
     localStorage.getItem(`uuid-${code}`) ?? crypto.randomUUID()
   )
-  const [player, setPlayer] = useState<Player>({
-    name: localStorage.getItem('playerName') ?? 'プレイヤー',
-    icon: '/images/default_player.png',
-    state: 'preparing',
-    score: 0,
-  })
+  const [name, setName] = useState(
+    localStorage.getItem('playerName') ?? 'プレイヤー'
+  )
   const [game, setGame] = useState<Game | null>(null)
 
   useEffect(() => {
@@ -93,27 +90,32 @@ const Play: React.FC = () => {
   }, [code])
 
   useEffect(() => {
-    localStorage.setItem('playerName', player.name)
-  }, [player.name])
+    localStorage.setItem('playerName', name)
+  }, [name])
 
   useEffect(() => {
     localStorage.setItem(`uuid-${code}`, uuidRef.current)
   }, [code])
 
   useEffect(() => {
-    if (!_.isEqual(game?.players?.[uuidRef.current], player)) {
+    if (game && game.players[uuidRef.current]?.name != name)
       socketRef.current?.send(
         JSON.stringify({
           uuid: uuidRef.current,
           code,
           setPlayer: {
             uuid: uuidRef.current,
-            body: player,
+            body: {
+              ...(game.players[uuidRef.current] ?? {
+                state: 'preparing',
+                score: 0,
+              }),
+              name,
+            },
           },
         })
       )
-    }
-  }, [code, game, player])
+  }, [code, game, name])
 
   useEffect(() => {
     if (game?.state == 'preparing') {
@@ -121,7 +123,7 @@ const Play: React.FC = () => {
       if (Object.keys(game.players).length >= 3) {
         allReady = true
         for (const each in game.players) {
-          if (game.players[each].state != 'ready') {
+          if (game.players[each].state == 'preparing') {
             allReady = false
             break
           }
@@ -141,21 +143,37 @@ const Play: React.FC = () => {
         )
       }
     }
+    if (game?.players[uuidRef.current]?.state == 'disconnected')
+      socketRef.current?.send(
+        JSON.stringify({
+          uuid: uuidRef.current,
+          code,
+          setPlayer: {
+            uuid: uuidRef.current,
+            body: {
+              ...game.players[uuidRef.current],
+              state: game.state == 'preparing' ? 'preparing' : 'ready',
+            },
+          },
+        })
+      )
   }, [code, game])
 
-  if (!game) return <GlobalWrapper />
+  if (!game?.players[uuidRef.current]) return <GlobalWrapper />
   if (game.state == 'preparing') {
-    if (player.state == 'preparing') {
+    if (game.players[uuidRef.current].state == 'preparing') {
       return (
         <GlobalWrapper>
-          <Setting {...{ code, player, setPlayer }} />
+          <Setting
+            {...{ uuid: uuidRef.current, code, game, socketRef, name, setName }}
+          />
         </GlobalWrapper>
       )
     }
-    if (player.state == 'ready') {
+    if (game.players[uuidRef.current].state == 'ready') {
       return (
         <GlobalWrapper>
-          <Waiting {...{ game, player, setPlayer }} />
+          <Waiting {...{ uuid: uuidRef.current, code, game, socketRef }} />
         </GlobalWrapper>
       )
     }
@@ -189,11 +207,6 @@ const Play: React.FC = () => {
         </GlobalWrapper>
       )
     }
-    return (
-      <GlobalWrapper>
-        {/* <Playing {...{ qrText, game, player, setPlayer, timer, code, socketRef }} /> */}
-      </GlobalWrapper>
-    )
   }
   if (game.state == 'finished') {
     return (

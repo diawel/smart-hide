@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import SquareButton from '../../../bit/SquareButton'
-import { formatSeconds } from '../../../../util/time'
 
 export type PointProps = {
   since: number
@@ -12,7 +11,7 @@ const Point: React.FC<PointProps> = ({ since }) => {
 
   useEffect(() => {
     const animationFrame = () => {
-      setPoint((Date.now() - since) / 1000)
+      setPoint(((Date.now() - since) / 1000) * 0.2)
 
       animationRef.current = requestAnimationFrame(animationFrame)
     }
@@ -23,7 +22,7 @@ const Point: React.FC<PointProps> = ({ since }) => {
     }
   }, [since])
 
-  return <SquareButton text={formatSeconds(point)} />
+  return <SquareButton text={`${point.toFixed(1)}GB`} />
 }
 
 export default Point

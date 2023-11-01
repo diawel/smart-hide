@@ -1,17 +1,19 @@
 import { Fragment } from 'react'
 import ColumnWithTitle from '../../chunk/ColumnWithTitle'
 import ContentWithTitle from '../../chunk/ContentWithTitle'
-import { Game, Player } from '../../../pages/Play'
+import { Game } from '../../../pages/Play'
 import SquareButton from '../../bit/SquareButton'
 import Click from '../../bit/Click'
+import ReconnectingWebSocket from 'reconnecting-websocket'
 
 export type WaitingProps = {
+  uuid: string
+  code?: string
   game: Game
-  player: Player
-  setPlayer: (player: Player) => void
+  socketRef: React.MutableRefObject<ReconnectingWebSocket | undefined>
 }
 
-const Waiting: React.FC<WaitingProps> = ({ game, player, setPlayer }) => {
+const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
   const preparingPlayers: string[] = []
   const readyPlayers: string[] = []
   for (const uuid in game.players) {
@@ -39,10 +41,19 @@ const Waiting: React.FC<WaitingProps> = ({ game, player, setPlayer }) => {
       <ContentWithTitle title="全員そろうと始まります">
         <Click
           onClick={() => {
-            setPlayer({
-              ...player,
-              state: player.state == 'ready' ? 'preparing' : 'ready',
-            })
+            socketRef.current?.send(
+              JSON.stringify({
+                uuid,
+                code,
+                setPlayer: {
+                  uuid,
+                  body: {
+                    ...game.players[uuid],
+                    state: 'preparing',
+                  },
+                },
+              })
+            )
           }}
         >
           <SquareButton text="やっぱり変える" />
