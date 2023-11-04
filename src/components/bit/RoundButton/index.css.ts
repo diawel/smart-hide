@@ -10,4 +10,5 @@ export const container = style({
   borderRadius: margin.siderail,
   boxSizing: 'border-box',
   fontSize: fontSize.ui,
+  width: 'fit-content',
 })

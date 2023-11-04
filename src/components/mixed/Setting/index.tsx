@@ -1,12 +1,12 @@
-import { QRCodeCanvas } from 'qrcode.react'
-import ColumnWithTitle from '../../chunk/ColumnWithTitle'
-import ContentWithTitle from '../../chunk/ContentWithTitle'
-import { qrcodeWrapper } from './index.css'
+import { container } from './index.css'
 import InputText from '../../bit/InputText'
 import Click from '../../bit/Click'
-import SquareButton from '../../bit/SquareButton'
 import { Game } from '../../../pages/Play'
 import ReconnectingWebSocket from 'reconnecting-websocket'
+import Title from '../../bit/Title'
+import JoinBanner from '../../chunk/JoinBanner'
+import ContentWithLabel from '../../chunk/ContentWithLabel'
+import RoundButton from '../../bit/RoundButton'
 
 export type SettingProps = {
   uuid: string
@@ -26,45 +26,36 @@ const Setting: React.FC<SettingProps> = ({
   setName,
 }) => {
   return (
-    <ColumnWithTitle title="プレイヤーの準備">
-      <ContentWithTitle title="参加用2次元コード">
-        <div className={qrcodeWrapper}>
-          <QRCodeCanvas
-            value={`https://${location.host}/play/${code}`}
-            style={{ width: '100%', height: '100%' }}
-            includeMargin={true}
-          />
-        </div>
-      </ContentWithTitle>
-      <ContentWithTitle title="プレイヤー名">
+    <div className={container}>
+      <Title />
+      <JoinBanner code={code} />
+      <ContentWithLabel title="コードネームを入力">
         <InputText text={name} setText={setName} />
-      </ContentWithTitle>
-      <ContentWithTitle title="全員そろうと始まります">
-        <Click
-          onClick={() => {
-            if (name.length == 0) alert('プレイヤー名を入力してください')
-            else {
-              socketRef.current?.send(
-                JSON.stringify({
+      </ContentWithLabel>
+      <Click
+        onClick={() => {
+          if (name.length == 0) alert('プレイヤー名を入力してください')
+          else {
+            socketRef.current?.send(
+              JSON.stringify({
+                uuid,
+                code,
+                setPlayer: {
                   uuid,
-                  code,
-                  setPlayer: {
-                    uuid,
-                    body: {
-                      ...game.players[uuid],
-                      name,
-                      state: 'ready',
-                    },
+                  body: {
+                    ...game.players[uuid],
+                    name,
+                    state: 'ready',
                   },
-                })
-              )
-            }
-          }}
-        >
-          <SquareButton text="準備完了する" />
-        </Click>
-      </ContentWithTitle>
-    </ColumnWithTitle>
+                },
+              })
+            )
+          }
+        }}
+      >
+        <RoundButton text="準備完了する" />
+      </Click>
+    </div>
   )
 }
 
