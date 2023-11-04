@@ -26,7 +26,7 @@ const Player: React.FC<PlayerProps> = ({ rank, name, score, hideCount }) => {
         <div className={text.background}>{scoreText}</div>
         <div
           className={scoreBar}
-          style={{ width: `${(score / gameConfig.fullScore) * 100}%` }}
+          style={{ left: `${(score / gameConfig.fullScore) * 100 - 100}%` }}
         />
         <div className={text.overay}>{scoreText}</div>
       </div>

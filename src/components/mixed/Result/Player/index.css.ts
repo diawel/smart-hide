@@ -32,6 +32,7 @@ export const scoreBar = style({
   position: 'relative',
   backgroundColor: color.primaryWhite,
   borderRadius: margin.siderail,
+  width: '100%',
   height: '100%',
 })
 
