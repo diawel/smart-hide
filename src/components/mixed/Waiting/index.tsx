@@ -1,8 +1,4 @@
-import { Fragment } from 'react'
-import ColumnWithTitle from '../../chunk/ColumnWithTitle'
-import ContentWithTitle from '../../chunk/ContentWithTitle'
 import { Game } from '../../../pages/Play'
-import SquareButton from '../../bit/SquareButton'
 import Click from '../../bit/Click'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import { container, playerList } from './index.css'
@@ -63,46 +59,6 @@ const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
         <RoundButton text="準備に戻る" />
       </Click>
     </div>
-  )
-
-  return (
-    <ColumnWithTitle title="プレイヤーの準備">
-      <ContentWithTitle title="準備中">
-        {preparingPlayers.map((uuid) => (
-          <Fragment key={uuid}>
-            <SquareButton text={game.players[uuid].name} />
-          </Fragment>
-        ))}
-      </ContentWithTitle>
-      <ContentWithTitle title="準備完了">
-        {readyPlayers.map((uuid) => (
-          <Fragment key={uuid}>
-            <SquareButton text={game.players[uuid].name} />
-          </Fragment>
-        ))}
-      </ContentWithTitle>
-      <ContentWithTitle title="全員そろうと始まります">
-        <Click
-          onClick={() => {
-            socketRef.current?.send(
-              JSON.stringify({
-                uuid,
-                code,
-                setPlayer: {
-                  uuid,
-                  body: {
-                    ...game.players[uuid],
-                    state: 'preparing',
-                  },
-                },
-              })
-            )
-          }}
-        >
-          <SquareButton text="やっぱり変える" />
-        </Click>
-      </ContentWithTitle>
-    </ColumnWithTitle>
   )
 }
 
