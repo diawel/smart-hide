@@ -10,6 +10,7 @@ import GameProgress from '../../../bit/GameProgress'
 import ContentWithLabel from '../../../chunk/ContentWithLabel'
 import GlobalWrapper from '../../../chunk/GlobalWrapper'
 import { milliSecondsToGb } from '../../../../util/game'
+import ShuffledImage from '../../../bit/ShuffledImage'
 
 export type SeekerProps = {
   uuid: string
@@ -60,7 +61,9 @@ const Seeker: React.FC<SeekerProps> = ({ uuid, code, game, socketRef }) => {
           <Plain text="して取り返せ。" />
         </Paragraph>
         <div className={images}>
-          <img className={image} src={game.seek!.image.src} />
+          <div className={image}>
+            <ShuffledImage src={game.seek!.image.src} />
+          </div>
           <div className={image}>
             <QrReader
               setResult={(result) => {
