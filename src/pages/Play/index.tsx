@@ -163,27 +163,17 @@ const Play: React.FC = () => {
   if (game.state == 'preparing') {
     if (game.players[uuidRef.current].state == 'preparing') {
       return (
-        <GlobalWrapper>
-          <Setting
-            {...{ uuid: uuidRef.current, code, game, socketRef, name, setName }}
-          />
-        </GlobalWrapper>
+        <Setting
+          {...{ uuid: uuidRef.current, code, game, socketRef, name, setName }}
+        />
       )
     }
     if (game.players[uuidRef.current].state == 'ready') {
-      return (
-        <GlobalWrapper>
-          <Waiting {...{ uuid: uuidRef.current, code, game, socketRef }} />
-        </GlobalWrapper>
-      )
+      return <Waiting {...{ uuid: uuidRef.current, code, game, socketRef }} />
     }
   }
   if (game.state == 'ready') {
-    return (
-      <GlobalWrapper>
-        <Ready {...{ uuid: uuidRef.current, code, game, socketRef }} />
-      </GlobalWrapper>
-    )
+    return <Ready {...{ uuid: uuidRef.current, code, game, socketRef }} />
   }
   if (game.state == 'ongoing') {
     if (game.interval) {
@@ -194,11 +184,7 @@ const Play: React.FC = () => {
       )
     }
     if (game.hide) {
-      return (
-        <GlobalWrapper>
-          <Hiding {...{ uuid: uuidRef.current, code, game, socketRef }} />
-        </GlobalWrapper>
-      )
+      return <Hiding {...{ uuid: uuidRef.current, code, game, socketRef }} />
     }
     if (game.seek) {
       return (

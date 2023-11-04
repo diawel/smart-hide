@@ -7,6 +7,7 @@ import Title from '../../bit/Title'
 import JoinBanner from '../../chunk/JoinBanner'
 import ContentWithLabel from '../../chunk/ContentWithLabel'
 import RoundButton from '../../bit/RoundButton'
+import GlobalWrapper from '../../chunk/GlobalWrapper'
 
 export type SettingProps = {
   uuid: string
@@ -26,36 +27,38 @@ const Setting: React.FC<SettingProps> = ({
   setName,
 }) => {
   return (
-    <div className={container}>
-      <Title />
-      <JoinBanner code={code} />
-      <ContentWithLabel title="コードネームを入力">
-        <InputText text={name} setText={setName} />
-      </ContentWithLabel>
-      <Click
-        onClick={() => {
-          if (name.length == 0) alert('プレイヤー名を入力してください')
-          else {
-            socketRef.current?.send(
-              JSON.stringify({
-                uuid,
-                code,
-                setPlayer: {
+    <GlobalWrapper>
+      <div className={container}>
+        <Title />
+        <JoinBanner code={code} />
+        <ContentWithLabel title="コードネームを入力">
+          <InputText text={name} setText={setName} />
+        </ContentWithLabel>
+        <Click
+          onClick={() => {
+            if (name.length == 0) alert('プレイヤー名を入力してください')
+            else {
+              socketRef.current?.send(
+                JSON.stringify({
                   uuid,
-                  body: {
-                    ...game.players[uuid],
-                    name,
-                    state: 'ready',
+                  code,
+                  setPlayer: {
+                    uuid,
+                    body: {
+                      ...game.players[uuid],
+                      name,
+                      state: 'ready',
+                    },
                   },
-                },
-              })
-            )
-          }
-        }}
-      >
-        <RoundButton text="準備完了する" />
-      </Click>
-    </div>
+                })
+              )
+            }
+          }}
+        >
+          <RoundButton text="準備完了する" />
+        </Click>
+      </div>
+    </GlobalWrapper>
   )
 }
 

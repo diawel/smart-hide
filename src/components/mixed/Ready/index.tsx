@@ -6,6 +6,7 @@ import Plain from '../../chunk/Paragraph/Plain'
 import Strong from '../../chunk/Paragraph/Strong'
 import RoundButton from '../../bit/RoundButton'
 import { container } from './index.css'
+import GlobalWrapper from '../../chunk/GlobalWrapper'
 
 export type ReadyProps = {
   uuid: string
@@ -16,32 +17,34 @@ export type ReadyProps = {
 
 const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
   return (
-    <div className={container}>
-      <Paragraph>
-        <Plain text="最初にデータチップを持ち出せるかは、もはや運任せだ。" />
-        <Strong text="ジャンケン" />
-        <Plain text="をして買った者が、データチップを持ち出すことができる。" />
-      </Paragraph>
-      <Click
-        onClick={() => {
-          socketRef.current?.send(
-            JSON.stringify({
-              uuid,
-              code,
-              setGame: {
-                ...game,
-                state: 'ongoing',
-                interval: {
-                  nextPlayer: uuid,
+    <GlobalWrapper>
+      <div className={container}>
+        <Paragraph>
+          <Plain text="最初にデータチップを持ち出せるかは、もはや運任せだ。" />
+          <Strong text="ジャンケン" />
+          <Plain text="をして買った者が、データチップを持ち出すことができる。" />
+        </Paragraph>
+        <Click
+          onClick={() => {
+            socketRef.current?.send(
+              JSON.stringify({
+                uuid,
+                code,
+                setGame: {
+                  ...game,
+                  state: 'ongoing',
+                  interval: {
+                    nextPlayer: uuid,
+                  },
                 },
-              },
-            })
-          )
-        }}
-      >
-        <RoundButton text="私が持ち出せた" />
-      </Click>
-    </div>
+              })
+            )
+          }}
+        >
+          <RoundButton text="私が持ち出せた" />
+        </Click>
+      </div>
+    </GlobalWrapper>
   )
 }
 

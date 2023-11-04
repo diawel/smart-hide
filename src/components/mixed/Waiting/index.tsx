@@ -5,6 +5,7 @@ import { container, playerList } from './index.css'
 import ContentWithLabel from '../../chunk/ContentWithLabel'
 import RoundButton from '../../bit/RoundButton'
 import Title from '../../bit/Title'
+import GlobalWrapper from '../../chunk/GlobalWrapper'
 
 export type WaitingProps = {
   uuid: string
@@ -23,42 +24,44 @@ const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
   }
 
   return (
-    <div className={container}>
-      <Title />
-      <ContentWithLabel title="ミッション準備中">
-        <div className={playerList}>
-          {preparingPlayers.map((uuid) => (
-            <div key={uuid}>{game.players[uuid].name}</div>
-          ))}
-        </div>
-      </ContentWithLabel>
-      <ContentWithLabel title="ミッション準備完了">
-        <div className={playerList}>
-          {readyPlayers.map((uuid) => (
-            <div key={uuid}>{game.players[uuid].name}</div>
-          ))}
-        </div>
-      </ContentWithLabel>
-      <Click
-        onClick={() => {
-          socketRef.current?.send(
-            JSON.stringify({
-              uuid,
-              code,
-              setPlayer: {
+    <GlobalWrapper>
+      <div className={container}>
+        <Title />
+        <ContentWithLabel title="ミッション準備中">
+          <div className={playerList}>
+            {preparingPlayers.map((uuid) => (
+              <div key={uuid}>{game.players[uuid].name}</div>
+            ))}
+          </div>
+        </ContentWithLabel>
+        <ContentWithLabel title="ミッション準備完了">
+          <div className={playerList}>
+            {readyPlayers.map((uuid) => (
+              <div key={uuid}>{game.players[uuid].name}</div>
+            ))}
+          </div>
+        </ContentWithLabel>
+        <Click
+          onClick={() => {
+            socketRef.current?.send(
+              JSON.stringify({
                 uuid,
-                body: {
-                  ...game.players[uuid],
-                  state: 'preparing',
+                code,
+                setPlayer: {
+                  uuid,
+                  body: {
+                    ...game.players[uuid],
+                    state: 'preparing',
+                  },
                 },
-              },
-            })
-          )
-        }}
-      >
-        <RoundButton text="準備に戻る" />
-      </Click>
-    </div>
+              })
+            )
+          }}
+        >
+          <RoundButton text="準備に戻る" />
+        </Click>
+      </div>
+    </GlobalWrapper>
   )
 }
 
