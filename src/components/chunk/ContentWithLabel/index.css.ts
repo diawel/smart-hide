@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css'
 import { fontSize, margin } from '../../../util/constants'
+import { fadeIn } from '../../../util/commonKeyframes.css'
 
 export const container = style({
   display: 'flex',
@@ -10,4 +11,5 @@ export const container = style({
 
 export const label = style({
   fontSize: fontSize.label,
+  animation: `${fadeIn} 0.6s ease`,
 })

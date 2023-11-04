@@ -10,4 +10,5 @@ export const container = style({
 export const qrReaderWrapper = style({
   aspectRatio: '1',
   width: '100%',
+  overflow: 'hidden',
 })

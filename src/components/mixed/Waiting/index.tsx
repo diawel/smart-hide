@@ -1,7 +1,7 @@
 import { Game } from '../../../pages/Play'
 import Click from '../../bit/Click'
 import ReconnectingWebSocket from 'reconnecting-websocket'
-import { container, playerList } from './index.css'
+import { container, player, playerList } from './index.css'
 import ContentWithLabel from '../../chunk/ContentWithLabel'
 import RoundButton from '../../bit/RoundButton'
 import Title from '../../bit/Title'
@@ -29,15 +29,27 @@ const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
         <Title />
         <ContentWithLabel title="ミッション準備中">
           <div className={playerList}>
-            {preparingPlayers.map((uuid) => (
-              <div key={uuid}>{game.players[uuid].name}</div>
+            {preparingPlayers.map((uuid, index) => (
+              <div
+                className={player}
+                key={uuid}
+                style={{ animationDelay: `${index * 0.3}s` }}
+              >
+                {game.players[uuid].name}
+              </div>
             ))}
           </div>
         </ContentWithLabel>
         <ContentWithLabel title="ミッション準備完了">
           <div className={playerList}>
-            {readyPlayers.map((uuid) => (
-              <div key={uuid}>{game.players[uuid].name}</div>
+            {readyPlayers.map((uuid, index) => (
+              <div
+                className={player}
+                key={uuid}
+                style={{ animationDelay: `${index * 0.3 + 0.15}s` }}
+              >
+                {game.players[uuid].name}
+              </div>
             ))}
           </div>
         </ContentWithLabel>
