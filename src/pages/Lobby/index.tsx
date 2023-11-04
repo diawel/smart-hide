@@ -2,7 +2,6 @@ import Click from '../../components/bit/Click'
 import { useNavigate } from 'react-router-dom'
 import GlobalWrapper from '../../components/chunk/GlobalWrapper'
 import { container, control, graphic } from './index.css'
-import Title from '../../components/bit/Title'
 import RoundButton from '../../components/bit/RoundButton'
 
 const Lobby: React.FC = () => {
@@ -10,8 +9,7 @@ const Lobby: React.FC = () => {
   return (
     <GlobalWrapper gradient fitScreen>
       <div className={container}>
-        <img className={graphic} src="/images/logo_background.svg" />
-        <Title />
+        <img className={graphic} src="/images/logo.svg" />
         <div className={control}>
           <Click
             onClick={() => {

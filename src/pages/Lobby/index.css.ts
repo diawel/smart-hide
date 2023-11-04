@@ -6,7 +6,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-end',
-  gap: margin.siderail,
+  gap: margin.block,
 })
 
 export const graphic = style({
