@@ -10,6 +10,30 @@ const height = 512
 const chunkX = 5
 const chunkY = 5
 
+class Random {
+  x: number
+  y: number
+  z: number
+  w: number
+  constructor(seed = 88675123) {
+    this.x = 123456789
+    this.y = 362436069
+    this.z = 521288629
+    this.w = seed
+  }
+  next() {
+    const t = this.x ^ (this.x << 11)
+    this.x = this.y
+    this.y = this.z
+    this.z = this.w
+    return (this.w = this.w ^ (this.w >>> 19) ^ (t ^ (t >>> 8)))
+  }
+  nextInt(min: number, max: number) {
+    const r = Math.abs(this.next())
+    return min + (r % (max + 1 - min))
+  }
+}
+
 const ShuffledImage: React.FC<ShuffledImageProps> = ({ src }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -22,9 +46,10 @@ const ShuffledImage: React.FC<ShuffledImageProps> = ({ src }) => {
         image.src = src
         image.onload = () => {
           context.drawImage(image, 0, 0, width, height)
+          const random = new Random(src.length)
           for (let y = 0; y < chunkY; y++) {
             for (let x = 0; x < chunkX; x++) {
-              if (Math.random() < 0.3) continue
+              if (random.nextInt(0, 10) < 3) continue
               const imageData = context.getImageData(
                 x * (width / chunkX),
                 y * (height / chunkY),
@@ -33,8 +58,8 @@ const ShuffledImage: React.FC<ShuffledImageProps> = ({ src }) => {
               )
               context.putImageData(
                 imageData,
-                Math.floor(Math.random() * chunkX) * (width / chunkX),
-                Math.floor(Math.random() * chunkY) * (height / chunkY)
+                random.nextInt(0, chunkX) * (width / chunkX),
+                random.nextInt(0, chunkY) * (height / chunkY)
               )
             }
           }
