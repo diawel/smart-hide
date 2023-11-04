@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { canvas, container, video } from './index.css'
+import { video } from './index.css'
 import jsQR from 'jsqr'
 
 export type PassScannerProps = {
@@ -10,7 +10,6 @@ const PassScanner: React.FC<PassScannerProps> = ({ onScan }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const videoStreamRef = useRef<MediaStream | null>(null)
   const animationRef = useRef(0)
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
     const video = videoRef.current
@@ -50,17 +49,7 @@ const PassScanner: React.FC<PassScannerProps> = ({ onScan }) => {
             videoRef.current.videoHeight
           )
           const code = jsQR(imageData.data, imageData.width, imageData.height)
-
-          // console.log(
-          //   imageData.width / 2,
-          //   code?.location.topLeftCorner.x,
-          //   (imageData.height * 4) / 5,
-          //   code?.location.topLeftCorner.y
-          // )
-
-          if (code?.data == 'smart-hide:pass') {
-            onScan(canvas.toDataURL())
-          }
+          if (code?.data == 'smart-hide:pass') onScan(canvas.toDataURL())
         }
       }
       animationRef.current = requestAnimationFrame(animationFrame)
@@ -74,12 +63,7 @@ const PassScanner: React.FC<PassScannerProps> = ({ onScan }) => {
     }
   }, [onScan])
 
-  return (
-    <div className={container}>
-      <video className={video} ref={videoRef} autoPlay muted playsInline />
-      <canvas className={canvas} ref={canvasRef} />
-    </div>
-  )
+  return <video className={video} ref={videoRef} autoPlay muted playsInline />
 }
 
 export default PassScanner
