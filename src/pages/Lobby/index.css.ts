@@ -2,9 +2,10 @@ import { style } from '@vanilla-extract/css'
 import { margin } from '../../util/constants'
 
 export const container = style({
-  paddingTop: '45svh',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'flex-end',
   gap: margin.siderail,
 })
 

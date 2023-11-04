@@ -1,0 +1,6 @@
+{
+  "name": "Byte",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait"
+}

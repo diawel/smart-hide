@@ -7,7 +7,8 @@ export const background = {
   gradient: {
     backgroundImage: 'url("/images/gradient.png")',
     backgroundColor: color.primaryBlack,
-    backgroundSize: '100% 100%',
+    backgroundSize: '100%',
+    backgroundRepeat: 'no-repeat',
   },
   grid: {
     backgroundImage: 'url("/images/grid.png")',

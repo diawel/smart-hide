@@ -12,6 +12,14 @@ const router = createBrowserRouter([
   { path: '/join', element: <Join /> },
 ])
 
+let statusBarHeight = 0
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  statusBarHeight = window.outerHeight - window.innerHeight
+  document.body.style.height = `${window.outerHeight}px`
+  scroll(0, statusBarHeight)
+}
+export { statusBarHeight }
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={router} />

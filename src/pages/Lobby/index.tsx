@@ -8,7 +8,7 @@ import RoundButton from '../../components/bit/RoundButton'
 const Lobby: React.FC = () => {
   const navigate = useNavigate()
   return (
-    <GlobalWrapper gradient>
+    <GlobalWrapper gradient fitScreen>
       <div className={container}>
         <img className={graphic} src="/images/logo_background.svg" />
         <Title />
