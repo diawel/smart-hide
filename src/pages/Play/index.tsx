@@ -179,11 +179,7 @@ const Play: React.FC = () => {
     }
   }
   if (game.state == 'finished') {
-    return (
-      <GlobalWrapper>
-        <Result {...{ game }} />
-      </GlobalWrapper>
-    )
+    return <Result {...{ game }} />
   }
 }
 

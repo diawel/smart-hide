@@ -1,30 +1,38 @@
-import { Fragment, useEffect, useState } from 'react'
-import ColumnWithTitle from '../../chunk/ColumnWithTitle'
-import ContentWithTitle from '../../chunk/ContentWithTitle'
+import { useEffect, useState } from 'react'
 import { Game } from '../../../pages/Play'
-import SquareButton from '../../bit/SquareButton'
 import Click from '../../bit/Click'
 import { useNavigate } from 'react-router-dom'
+import { container } from './index.css'
+import Title from '../../bit/Title'
+import Player from './Player'
+import RoundButton from '../../bit/RoundButton'
+import GlobalWrapper from '../../chunk/GlobalWrapper'
 
 export type ResultProps = {
   game: Game
 }
 
-type Ranking = { rank: number; name: string; score: number }[]
+export type RankedPlayer = {
+  rank: number
+  name: string
+  score: number
+  hideCount: number
+}
 
 const Result: React.FC<ResultProps> = ({ game }) => {
   const navigate = useNavigate()
-  const [ranking, setRanking] = useState<Ranking>([])
+  const [ranking, setRanking] = useState<RankedPlayer[]>([])
 
   useEffect(() => {
     if (ranking.length < Object.keys(game.players).length) {
-      const playerList: { rank: number; name: string; score: number }[] = []
+      const playerList: RankedPlayer[] = []
       for (const uuid in game.players) {
         const player = game.players[uuid]
         playerList.push({
           rank: 0,
           name: player.name,
           score: player.score,
+          hideCount: player.hideCount,
         })
       }
       playerList.sort((a, b) => b.score - a.score)
@@ -46,26 +54,24 @@ const Result: React.FC<ResultProps> = ({ game }) => {
   }, [ranking, game])
 
   return (
-    <ColumnWithTitle title="ゲーム終了！">
-      <ContentWithTitle title="ランキング">
+    <GlobalWrapper gradient>
+      <div className={container}>
+        <Title />
         {ranking.map((player, index) => (
-          <Fragment
+          <Player
             key={`${player.rank}-${player.name}-${player.score}-${index}`}
-          >
-            <SquareButton
-              text={`${player.rank}位 ${player.name} ${player.score}P`}
-            />
-          </Fragment>
+            {...player}
+          />
         ))}
-      </ContentWithTitle>
-      <Click
-        onClick={() => {
-          navigate('/')
-        }}
-      >
-        <SquareButton text="ホームに戻る" />
-      </Click>
-    </ColumnWithTitle>
+        <Click
+          onClick={() => {
+            navigate('/')
+          }}
+        >
+          <RoundButton text="ホームに戻る" />
+        </Click>
+      </div>
+    </GlobalWrapper>
   )
 }
 
