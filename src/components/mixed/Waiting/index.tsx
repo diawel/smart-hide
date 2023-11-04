@@ -28,14 +28,14 @@ const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
       <ContentWithLabel title="ミッション準備中">
         <div className={playerList}>
           {preparingPlayers.map((uuid) => (
-            <div>{game.players[uuid].name}</div>
+            <div key={uuid}>{game.players[uuid].name}</div>
           ))}
         </div>
       </ContentWithLabel>
       <ContentWithLabel title="ミッション準備完了">
         <div className={playerList}>
           {readyPlayers.map((uuid) => (
-            <div>{game.players[uuid].name}</div>
+            <div key={uuid}>{game.players[uuid].name}</div>
           ))}
         </div>
       </ContentWithLabel>

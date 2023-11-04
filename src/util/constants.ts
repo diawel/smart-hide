@@ -38,3 +38,8 @@ export const fontWeight = {
   normal: 500,
   bold: 700,
 }
+
+export const gameConfig = {
+  hideDuration: 60,
+  fullScore: 100,
+}
