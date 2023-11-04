@@ -1,10 +1,8 @@
-import ColumnWithTitle from '../../chunk/ColumnWithTitle'
 import { Game } from '../../../pages/Play'
 import ReconnectingWebSocket from 'reconnecting-websocket'
-import ContentWithTitle from '../../chunk/ContentWithTitle'
-import QrReader from '../../bit/QrReader'
-import { useEffect, useRef, useState } from 'react'
-import Point from './Point'
+import { useEffect, useRef } from 'react'
+import Hider from './Hider'
+import Seeker from './Seeker'
 
 export type SeekingProps = {
   uuid: string
@@ -14,7 +12,6 @@ export type SeekingProps = {
 }
 
 const Seeking: React.FC<SeekingProps> = ({ uuid, code, game, socketRef }) => {
-  const [isScanned, setIsScanned] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
   useEffect(() => {
     let sum = 0
@@ -45,55 +42,8 @@ const Seeking: React.FC<SeekingProps> = ({ uuid, code, game, socketRef }) => {
   }, [code, game, socketRef, uuid])
 
   if (uuid === game.seek?.target)
-    return (
-      <ColumnWithTitle title="じっと隠れよう">
-        <ContentWithTitle title="いま送信しているデータ量">
-          <Point since={game.seek!.since} />
-        </ContentWithTitle>
-      </ColumnWithTitle>
-    )
-  else
-    return (
-      <ColumnWithTitle
-        title={`${game.players[game.seek!.target].name} を探そう！`}
-      >
-        <img src={game.seek!.image.src} />
-        <ContentWithTitle title="見つけたらQRコードをスキャンしよう">
-          <QrReader
-            setResult={(result) => {
-              if (result == 'smart-hide:pass' && !isScanned) {
-                console.log(Date.now() - game.seek!.since)
-
-                socketRef.current?.send(
-                  JSON.stringify({
-                    uuid,
-                    code,
-                    setPlayer: {
-                      uuid: game.seek!.target,
-                      body: {
-                        ...game.players[game.seek!.target],
-                        score:
-                          game.players[game.seek!.target].score +
-                          (((() => Date.now())() - game.seek!.since) / 1000) *
-                            0.2,
-                      },
-                    },
-                    setGame: {
-                      ...game,
-                      interval: {
-                        nextPlayer: uuid,
-                      },
-                      seek: undefined,
-                    },
-                  })
-                )
-                setIsScanned(true)
-              }
-            }}
-          />
-        </ContentWithTitle>
-      </ColumnWithTitle>
-    )
+    return <Hider {...{ uuid, code, game, socketRef }} />
+  else return <Seeker {...{ uuid, code, game, socketRef }} />
 }
 
 export default Seeking

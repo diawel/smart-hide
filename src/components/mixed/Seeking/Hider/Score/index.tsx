@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
-import SquareButton from '../../../bit/SquareButton'
+import { container } from './index.css'
+import { milliSecondsToGb } from '../../../../../util/game'
 
-export type PointProps = {
+export type ScoreProps = {
   since: number
 }
 
-const Point: React.FC<PointProps> = ({ since }) => {
+const Score: React.FC<ScoreProps> = ({ since }) => {
   const animationRef = useRef(0)
   const [point, setPoint] = useState(0)
 
   useEffect(() => {
     const animationFrame = () => {
-      setPoint(((Date.now() - since) / 1000) * 0.2)
+      setPoint(milliSecondsToGb(Date.now() - since))
 
       animationRef.current = requestAnimationFrame(animationFrame)
     }
@@ -22,7 +23,7 @@ const Point: React.FC<PointProps> = ({ since }) => {
     }
   }, [since])
 
-  return <SquareButton text={`${point.toFixed(1)}GB`} />
+  return <div className={container}>{point.toFixed(1)}GB</div>
 }
 
-export default Point
+export default Score

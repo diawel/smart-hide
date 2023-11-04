@@ -187,11 +187,7 @@ const Play: React.FC = () => {
       return <Hiding {...{ uuid: uuidRef.current, code, game, socketRef }} />
     }
     if (game.seek) {
-      return (
-        <GlobalWrapper>
-          <Seeking {...{ uuid: uuidRef.current, code, game, socketRef }} />
-        </GlobalWrapper>
-      )
+      return <Seeking {...{ uuid: uuidRef.current, code, game, socketRef }} />
     }
   }
   if (game.state == 'finished') {

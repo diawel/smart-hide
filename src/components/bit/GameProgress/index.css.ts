@@ -1,5 +1,5 @@
-import { style } from '@vanilla-extract/css'
-import { color, fontSize, margin } from '../../../util/constants'
+import { style, styleVariants } from '@vanilla-extract/css'
+import { color, fontSize, fontWeight, margin } from '../../../util/constants'
 
 export const container = style({
   position: 'relative',
@@ -10,14 +10,29 @@ export const container = style({
 })
 
 export const progress = style({
+  position: 'relative',
   backgroundColor: color.primaryWhite,
+  height: '100%',
 })
 
-export const text = style({
-  position: 'absolute',
-  bottom: margin.paragraph,
-  right: margin.paragraph,
-  color: color.primaryWhite,
-  fontSize: fontSize.inFigure,
-  mixBlendMode: 'difference',
-})
+export const text = styleVariants(
+  {
+    overay: {
+      color: color.primaryWhite,
+      mixBlendMode: 'difference',
+    },
+    background: {
+      color: color.primaryBlack,
+    },
+  },
+  (variant) => [
+    style({
+      position: 'absolute',
+      bottom: margin.paragraph,
+      right: margin.paragraph,
+      fontSize: fontSize.inFigure,
+      fontWeight: fontWeight.bold,
+    }),
+    variant,
+  ]
+)

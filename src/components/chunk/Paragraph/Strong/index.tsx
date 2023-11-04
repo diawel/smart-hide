@@ -1,13 +1,8 @@
 import { LineProps } from '..'
-import { container, fill, stroke } from './index.css'
+import { container } from './index.css'
 
 const Strong: React.FC<LineProps> = ({ text }) => {
-  return (
-    <div className={container}>
-      <div className={stroke}>{text}</div>
-      <div className={fill}>{text}</div>
-    </div>
-  )
+  return <div className={container}>{text}</div>
 }
 
 export default Strong

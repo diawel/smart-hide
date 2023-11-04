@@ -9,3 +9,6 @@ export const calcTotalScore = (game: Game) => {
   if (game.seek) totalScore += milliSecondsToGb(Date.now() - game.seek.since)
   return totalScore
 }
+
+export const calcRemainMilliSeconds = (game: Game) =>
+  ((100 - calcTotalScore(game)) * 1000) / 0.2

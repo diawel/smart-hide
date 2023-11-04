@@ -27,11 +27,14 @@ const GameProgress: React.FC<GameProgressProps> = ({ game }) => {
 
   return (
     <div className={container}>
+      <div className={text.background}>
+        {totalScore.toFixed(1)}GB / {gameConfig.fullScore}GB
+      </div>
       <div
         className={progress}
         style={{ width: `${(totalScore / gameConfig.fullScore) * 100}%` }}
       />
-      <div className={text}>
+      <div className={text.overay}>
         {totalScore.toFixed(1)}GB / {gameConfig.fullScore}GB
       </div>
     </div>
