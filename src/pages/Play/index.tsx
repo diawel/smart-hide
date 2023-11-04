@@ -6,7 +6,6 @@ import Result from '../../components/mixed/Result'
 import GlobalWrapper from '../../components/chunk/GlobalWrapper'
 import Waiting from '../../components/mixed/Waiting'
 import Ready from '../../components/mixed/Ready'
-import Interval from '../../components/mixed/Interval'
 import Hiding from '../../components/mixed/Hiding'
 import Seeking from '../../components/mixed/Seeking'
 
@@ -14,11 +13,11 @@ type Player = {
   name: string
   state: 'preparing' | 'ready' | 'disconnected'
   score: number
+  hideCount: number
 }
 
 export type MetaGame = {
   state: 'preparing' | 'ready' | 'ongoing' | 'finished'
-  turn: number
   seek?: {
     image: {
       src: string
@@ -30,9 +29,6 @@ export type MetaGame = {
   hide?: {
     player: string
     since: number
-  }
-  interval?: {
-    nextPlayer: string
   }
 }
 
@@ -104,11 +100,11 @@ const Play: React.FC = () => {
           uuid: uuidRef.current,
           code,
           setPlayer: {
-            uuid: uuidRef.current,
-            body: {
+            [uuidRef.current]: {
               ...(game.players[uuidRef.current] ?? {
                 state: 'preparing',
                 score: 0,
+                hideCount: 0,
               }),
               name,
             },
@@ -149,8 +145,7 @@ const Play: React.FC = () => {
           uuid: uuidRef.current,
           code,
           setPlayer: {
-            uuid: uuidRef.current,
-            body: {
+            [uuidRef.current]: {
               ...game.players[uuidRef.current],
               state: game.state == 'preparing' ? 'preparing' : 'ready',
             },
@@ -176,13 +171,6 @@ const Play: React.FC = () => {
     return <Ready {...{ uuid: uuidRef.current, code, game, socketRef }} />
   }
   if (game.state == 'ongoing') {
-    if (game.interval) {
-      return (
-        <GlobalWrapper>
-          <Interval {...{ uuid: uuidRef.current, code, game, socketRef }} />
-        </GlobalWrapper>
-      )
-    }
     if (game.hide) {
       return <Hiding {...{ uuid: uuidRef.current, code, game, socketRef }} />
     }

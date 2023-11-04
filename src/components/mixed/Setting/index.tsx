@@ -43,8 +43,7 @@ const Setting: React.FC<SettingProps> = ({
                   uuid,
                   code,
                   setPlayer: {
-                    uuid,
-                    body: {
+                    [uuid]: {
                       ...game.players[uuid],
                       name,
                       state: 'ready',

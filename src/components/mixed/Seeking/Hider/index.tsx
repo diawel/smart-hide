@@ -6,10 +6,10 @@ import Plain from '../../../chunk/Paragraph/Plain'
 import Strong from '../../../chunk/Paragraph/Strong'
 import ContentWithLabel from '../../../chunk/ContentWithLabel'
 import GameProgress from '../../../bit/GameProgress'
-import Score from './Score'
 import { useEffect, useRef } from 'react'
 import { calcRemainMilliSeconds } from '../../../../util/game'
 import { container } from './index.css'
+import Score from './Score'
 
 export type HiderProps = {
   uuid: string
@@ -35,8 +35,7 @@ const Hider: React.FC<HiderProps> = ({ uuid, code, game, socketRef }) => {
             state: 'finished',
           },
           setPlayer: {
-            uuid,
-            body: {
+            [uuid]: {
               ...game.players[uuid],
               score: game.players[uuid].score + 100 - totalScore,
             },

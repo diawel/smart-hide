@@ -1,4 +1,5 @@
 import { Game } from '../pages/Play'
+import { gameConfig } from './constants'
 
 export const milliSecondsToGb = (milliSeconds: number) =>
   (milliSeconds / 1000) * 0.2
@@ -11,4 +12,4 @@ export const calcTotalScore = (game: Game) => {
 }
 
 export const calcRemainMilliSeconds = (game: Game) =>
-  ((100 - calcTotalScore(game)) * 1000) / 0.2
+  ((gameConfig.fullScore - calcTotalScore(game)) * 1000) / 0.2

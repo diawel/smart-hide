@@ -9,6 +9,7 @@ import QrReader from '../../../bit/QrReader'
 import GameProgress from '../../../bit/GameProgress'
 import ContentWithLabel from '../../../chunk/ContentWithLabel'
 import GlobalWrapper from '../../../chunk/GlobalWrapper'
+import { milliSecondsToGb } from '../../../../util/game'
 
 export type SeekerProps = {
   uuid: string
@@ -27,18 +28,22 @@ const Seeker: React.FC<SeekerProps> = ({ uuid, code, game, socketRef }) => {
           uuid,
           code,
           setPlayer: {
-            uuid: game.seek!.target,
-            body: {
+            [game.seek!.target]: {
               ...game.players[game.seek!.target],
               score:
                 game.players[game.seek!.target].score +
-                (((() => Date.now())() - game.seek!.since) / 1000) * 0.2,
+                milliSecondsToGb(Date.now() - game.seek!.since),
+            },
+            [uuid]: {
+              ...game.players[uuid],
+              hideCount: game.players[uuid].hideCount + 1,
             },
           },
           setGame: {
             ...game,
-            interval: {
-              nextPlayer: uuid,
+            hide: {
+              player: uuid,
+              since: Date.now(),
             },
             seek: undefined,
           },

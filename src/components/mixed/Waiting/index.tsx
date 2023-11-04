@@ -48,8 +48,7 @@ const Waiting: React.FC<WaitingProps> = ({ uuid, code, game, socketRef }) => {
                 uuid,
                 code,
                 setPlayer: {
-                  uuid,
-                  body: {
+                  [uuid]: {
                     ...game.players[uuid],
                     state: 'preparing',
                   },

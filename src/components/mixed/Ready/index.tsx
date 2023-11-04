@@ -30,11 +30,18 @@ const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
               JSON.stringify({
                 uuid,
                 code,
+                setPlayer: {
+                  [uuid]: {
+                    ...game.players[uuid],
+                    hideCount: game.players[uuid].hideCount + 1,
+                  },
+                },
                 setGame: {
                   ...game,
                   state: 'ongoing',
-                  interval: {
-                    nextPlayer: uuid,
+                  hide: {
+                    player: uuid,
+                    since: Date.now(),
                   },
                 },
               })
