@@ -1,8 +1,11 @@
-import ColumnWithTitle from '../../chunk/ColumnWithTitle'
 import Click from '../../bit/Click'
-import SquareButton from '../../bit/SquareButton'
 import { Game } from '../../../pages/Play'
 import ReconnectingWebSocket from 'reconnecting-websocket'
+import Paragraph from '../../chunk/Paragraph'
+import Plain from '../../chunk/Paragraph/Plain'
+import Strong from '../../chunk/Paragraph/Strong'
+import RoundButton from '../../bit/RoundButton'
+import { container } from './index.css'
 
 export type ReadyProps = {
   uuid: string
@@ -13,7 +16,12 @@ export type ReadyProps = {
 
 const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
   return (
-    <ColumnWithTitle title="最初に逃げるプレイヤーを決めてください">
+    <div className={container}>
+      <Paragraph>
+        <Plain text="最初にデータチップを持ち出せるかは、もはや運任せだ。" />
+        <Strong text="ジャンケン" />
+        <Plain text="をして買った者が、データチップを持ち出すことができる。" />
+      </Paragraph>
       <Click
         onClick={() => {
           socketRef.current?.send(
@@ -31,9 +39,9 @@ const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
           )
         }}
       >
-        <SquareButton text="私が逃げる" />
+        <RoundButton text="私が持ち出せた" />
       </Click>
-    </ColumnWithTitle>
+    </div>
   )
 }
 

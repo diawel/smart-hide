@@ -33,3 +33,8 @@ export const fontSize = {
   inFigure: 32,
   typography: 64,
 }
+
+export const fontWeight = {
+  normal: 500,
+  bold: 700,
+}
