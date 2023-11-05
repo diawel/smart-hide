@@ -17,7 +17,7 @@ const ScannerContainer: React.FC<ScannerContainerProps> = ({
 
   useEffect(() => {
     const animationFrame = () => {
-      setPercent(((until - Date.now()) / gameConfig.hideDuration / 1000) * 100)
+      setPercent(((until - Date.now()) / 1000 / gameConfig.hideDuration) * 100)
 
       animationRef.current = requestAnimationFrame(animationFrame)
     }

@@ -5,6 +5,11 @@ export const fadeIn = keyframes({
   to: { opacity: 1 },
 })
 
+export const fadeOut = keyframes({
+  from: { opacity: 1 },
+  to: { opacity: 0 },
+})
+
 export const slideIn = keyframes({
   from: { transform: 'translateY(30%)', opacity: 0 },
   to: { transform: 'translateX(0)', opacity: 1 },

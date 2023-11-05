@@ -2,6 +2,7 @@ import { Game } from '../../../pages/Play'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import Hider from './Hider'
 import Seeker from './Seeker'
+import Popup from './Popup'
 
 export type HidingProps = {
   uuid: string
@@ -12,8 +13,17 @@ export type HidingProps = {
 
 const Hiding: React.FC<HidingProps> = ({ uuid, code, game, socketRef }) => {
   if (uuid === game.hide?.player)
-    return <Hider {...{ uuid, code, game, socketRef }} />
-  else return <Seeker {...{ game }} />
+    return (
+      <Popup {...{ uuid, game }}>
+        <Hider {...{ uuid, code, game, socketRef }} />
+      </Popup>
+    )
+  else
+    return (
+      <Popup {...{ uuid, game }}>
+        <Seeker {...{ game }} />
+      </Popup>
+    )
 }
 
 export default Hiding

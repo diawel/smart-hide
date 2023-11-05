@@ -54,7 +54,7 @@ const Hider: React.FC<HiderProps> = ({ uuid, code, game, socketRef }) => {
         <Paragraph>
           <Plain text="データをアップロード中。" />
           <Strong text="その場に" />
-          <Plain text="とどまって、できる限り多くのデータを送信しろ。" />
+          <Plain text="とどまって、できる限り多くのデータを送信せよ。" />
         </Paragraph>
         <ContentWithLabel title="今送信しているデータ量">
           <Score since={game.seek!.since} />
