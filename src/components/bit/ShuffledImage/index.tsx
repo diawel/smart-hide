@@ -49,7 +49,6 @@ const ShuffledImage: React.FC<ShuffledImageProps> = ({ src }) => {
           const random = new Random(src.length)
           for (let y = 0; y < chunkY; y++) {
             for (let x = 0; x < chunkX; x++) {
-              if (random.nextInt(0, 10) < 3) continue
               const imageData = context.getImageData(
                 x * (width / chunkX),
                 y * (height / chunkY),
