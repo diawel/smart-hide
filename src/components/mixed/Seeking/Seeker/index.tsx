@@ -23,7 +23,7 @@ const Seeker: React.FC<SeekerProps> = ({ uuid, code, game, socketRef }) => {
   const [scanReseult, setScanResult] = useState<string | null>(null)
 
   useEffect(() => {
-    if (scanReseult)
+    if (scanReseult == 'smart-hide:pass')
       socketRef.current?.send(
         JSON.stringify({
           uuid,
@@ -65,11 +65,7 @@ const Seeker: React.FC<SeekerProps> = ({ uuid, code, game, socketRef }) => {
             <ShuffledImage src={game.seek!.image.src} />
           </div>
           <div className={image}>
-            <QrReader
-              setResult={(result) => {
-                if (result == 'smart-hide:pass') setScanResult(result)
-              }}
-            />
+            <QrReader setResult={setScanResult} />
           </div>
         </div>
         <ContentWithLabel title="アップロードされたデータの総量">

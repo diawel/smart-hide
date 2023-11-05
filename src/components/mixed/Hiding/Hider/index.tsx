@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PassScanner from '../../../bit/PassScanner'
 import { Game } from '../../../../pages/Play'
-import { container } from './index.css'
+import { container, done } from './index.css'
 import Paragraph from '../../../chunk/Paragraph'
 import Strong from '../../../chunk/Paragraph/Strong'
 import Plain from '../../../chunk/Paragraph/Plain'
@@ -23,27 +23,35 @@ const extraDuration = 5
 const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
   const [scanReseult, setScanResult] = useState('')
   const [isTimeover, setIsTimeover] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
-    if (scanReseult)
-      socketRef.current?.send(
-        JSON.stringify({
-          uuid,
-          code,
-          setGame: {
-            ...game,
-            hide: undefined,
-            seek: {
-              image: {
-                src: scanReseult,
-                filter: 0,
+    if (scanReseult) {
+      timeoutRef.current = setTimeout(() => {
+        socketRef.current?.send(
+          JSON.stringify({
+            uuid,
+            code,
+            setGame: {
+              ...game,
+              hide: undefined,
+              seek: {
+                image: {
+                  src: scanReseult,
+                  filter: 0,
+                },
+                target: uuid,
+                since: Date.now(),
               },
-              target: uuid,
-              since: Date.now(),
             },
-          },
-        })
-      )
+          })
+        )
+      }, 3000)
+
+      return () => {
+        clearTimeout(timeoutRef.current)
+      }
+    }
   }, [code, game, scanReseult, socketRef, uuid])
 
   useEffect(() => {
@@ -52,7 +60,18 @@ const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
     }, Math.max(0, (gameConfig.hideDuration + extraDuration) * 1000 - (Date.now() - game.hide!.since)))
   }, [game.hide])
 
-  const scanner = <PassScanner onScan={setScanResult} />
+  if (scanReseult)
+    return (
+      <GlobalWrapper fitScreen>
+        <div className={done}>
+          <Paragraph key="done">
+            <div className={simpleAnimate.slideIn}>
+              <Strong text="スキャン完了" />
+            </div>
+          </Paragraph>
+        </div>
+      </GlobalWrapper>
+    )
   return (
     <GlobalWrapper>
       <div className={container}>
@@ -92,7 +111,7 @@ const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
           style={{ animationDelay: '1.5s' }}
         >
           <ScannerContainer
-            scanner={scanner}
+            scanner={<PassScanner onScan={setScanResult} />}
             until={
               game.hide!.since +
               (gameConfig.hideDuration + extraDuration) * 1000
