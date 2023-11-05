@@ -61,7 +61,7 @@ const Seeker: React.FC<SeekerProps> = ({ uuid, code, game, socketRef }) => {
       <div className={container}>
         <Paragraph>
           <div className={simpleAnimate.slideIn}>
-            <Plain text="画像を手がかりにデータチップを探し出し" />
+            <Plain text="画像を手がかりにディスクを探し出し" />
           </div>
           <div
             className={simpleAnimate.slideIn}

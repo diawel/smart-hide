@@ -99,7 +99,7 @@ const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
               className={simpleAnimate.slideIn}
               style={{ animationDelay: '0.9s' }}
             >
-              <Plain text="持ち出したデータチップをスキャンすると、送信を開始できる。" />
+              <Plain text="持ち出したディスクをスキャンすると、送信を開始できる。" />
             </div>
           </Paragraph>
         )}

@@ -30,7 +30,7 @@ const Popup: React.FC<PopupProps> = ({ uuid, game, children }) => {
         <div className={container}>
           <Paragraph>
             <div className={simpleAnimate.slideIn}>
-              <Plain text="データチップを取得した。" />
+              <Plain text="ディスクを取得した。" />
             </div>
             <div
               className={simpleAnimate.slideIn}
@@ -42,7 +42,7 @@ const Popup: React.FC<PopupProps> = ({ uuid, game, children }) => {
               className={simpleAnimate.slideIn}
               style={{ animationDelay: '1.5s' }}
             >
-              <Plain text="に隠れる場所を見つけて、データチップをスキャンせよ。" />
+              <Plain text="に隠れる場所を見つけて、ディスクをスキャンせよ。" />
             </div>
           </Paragraph>
         </div>
@@ -60,7 +60,7 @@ const Popup: React.FC<PopupProps> = ({ uuid, game, children }) => {
               className={simpleAnimate.slideIn}
               style={{ animationDelay: '0.6s' }}
             >
-              <Plain text="がデータチップを持ち出した。" />
+              <Plain text="がディスクを持ち出した。" />
             </div>
             <div
               className={simpleAnimate.slideIn}

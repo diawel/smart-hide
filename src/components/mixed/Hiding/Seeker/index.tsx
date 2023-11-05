@@ -30,7 +30,7 @@ const Seeker: React.FC<SeekerProps> = ({ game }) => {
             className={simpleAnimate.slideIn}
             style={{ animationDelay: '1.5s' }}
           >
-            <Plain text="データチップの座標に関する情報が、じきに受信できる。" />
+            <Plain text="ディスクの座標に関する情報が、じきに受信できる。" />
           </div>
         </Paragraph>
         <div

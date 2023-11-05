@@ -22,7 +22,7 @@ const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
       <div className={container}>
         <Paragraph>
           <div className={simpleAnimate.slideIn}>
-            <Plain text="最初にデータチップを持ち出せるかは、もはや運任せだ。" />
+            <Plain text="最初にディスクを持ち出せるかは、もはや運任せだ。" />
           </div>
           <div
             className={simpleAnimate.slideIn}
@@ -34,7 +34,7 @@ const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
             className={simpleAnimate.slideIn}
             style={{ animationDelay: '1.5s' }}
           >
-            <Plain text="をして買った者が、データチップを持ち出すことができる。" />
+            <Plain text="をして買った者が、ディスクを持ち出すことができる。" />
           </div>
         </Paragraph>
         <div
