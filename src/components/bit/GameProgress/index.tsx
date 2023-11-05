@@ -25,18 +25,22 @@ const GameProgress: React.FC<GameProgressProps> = ({ game }) => {
     }
   }, [game])
 
+  const normalizedScore = Math.max(
+    0,
+    Math.min(gameConfig.fullScore, totalScore)
+  )
+
   return (
     <div className={container}>
       <div className={text.background}>
-        {Math.min(gameConfig.fullScore, totalScore).toFixed(1)}GB /{' '}
-        {gameConfig.fullScore}GB
+        {normalizedScore.toFixed(1)}GB / {gameConfig.fullScore}GB
       </div>
       <div
         className={progress}
-        style={{ width: `${(totalScore / gameConfig.fullScore) * 100}%` }}
+        style={{ width: `${(normalizedScore / gameConfig.fullScore) * 100}%` }}
       />
       <div className={text.overay}>
-        {totalScore.toFixed(1)}GB / {gameConfig.fullScore}GB
+        {normalizedScore.toFixed(1)}GB / {gameConfig.fullScore}GB
       </div>
     </div>
   )

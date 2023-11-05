@@ -11,6 +11,7 @@ import { calcRemainMilliSeconds } from '../../../../util/game'
 import { container } from './index.css'
 import Score from './Score'
 import { simpleAnimate } from '../../../../util/commonKeyframes.css'
+import { gameConfig } from '../../../../util/constants'
 
 export type HiderProps = {
   uuid: string
@@ -40,12 +41,13 @@ const Hider: React.FC<HiderProps> = ({ uuid, code, game, socketRef }) => {
           setPlayer: {
             [uuid]: {
               ...game.players[uuid],
-              score: game.players[uuid].score + 100 - totalScore,
+              score:
+                game.players[uuid].score + gameConfig.fullScore - totalScore,
             },
           },
         })
       )
-    }, calcRemainMilliSeconds(game))
+    }, Math.max(0, calcRemainMilliSeconds(game)))
 
     return () => {
       clearTimeout(timeoutRef.current)

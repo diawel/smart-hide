@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { Game } from '../../../pages/Play'
 import Click from '../../bit/Click'
 import { useNavigate } from 'react-router-dom'
-import { container } from './index.css'
+import { container, playerWrapper } from './index.css'
 import Title from '../../bit/Title'
 import Player from './Player'
 import RoundButton from '../../bit/RoundButton'
 import GlobalWrapper from '../../chunk/GlobalWrapper'
+import Popup from './Popup'
 
 export type ResultProps = {
   game: Game
@@ -54,24 +55,29 @@ const Result: React.FC<ResultProps> = ({ game }) => {
   }, [ranking, game])
 
   return (
-    <GlobalWrapper gradient>
-      <div className={container}>
-        <Title />
-        {ranking.map((player, index) => (
-          <Player
-            key={`${player.rank}-${player.name}-${player.score}-${index}`}
-            {...player}
-          />
-        ))}
-        <Click
-          onClick={() => {
-            navigate('/')
-          }}
-        >
-          <RoundButton text="ホームに戻る" />
-        </Click>
-      </div>
-    </GlobalWrapper>
+    <Popup>
+      <GlobalWrapper gradient>
+        <div className={container}>
+          <Title />
+          {ranking.map((player, index) => (
+            <div
+              key={`${player.rank}-${player.name}-${player.score}-${index}`}
+              className={playerWrapper}
+              style={{ animationDelay: `${3.6 + index * 0.15}s` }}
+            >
+              <Player {...player} />
+            </div>
+          ))}
+          <Click
+            onClick={() => {
+              navigate('/')
+            }}
+          >
+            <RoundButton text="ホームに戻る" />
+          </Click>
+        </div>
+      </GlobalWrapper>
+    </Popup>
   )
 }
 
