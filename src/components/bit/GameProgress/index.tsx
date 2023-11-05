@@ -28,7 +28,8 @@ const GameProgress: React.FC<GameProgressProps> = ({ game }) => {
   return (
     <div className={container}>
       <div className={text.background}>
-        {totalScore.toFixed(1)}GB / {gameConfig.fullScore}GB
+        {Math.min(gameConfig.fullScore, totalScore).toFixed(1)}GB /{' '}
+        {gameConfig.fullScore}GB
       </div>
       <div
         className={progress}
