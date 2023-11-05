@@ -41,5 +41,6 @@ export const fontWeight = {
 
 export const gameConfig = {
   hideDuration: 60,
-  fullScore: 100,
+  fullScore: 1024,
+  uploadSpeed: 2,
 }
