@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css'
 import { margin } from '../../../../util/constants'
+import { fadeIn } from '../../../../util/commonKeyframes.css'
 
 export const container = style({
   display: 'flex',
@@ -12,6 +13,7 @@ export const images = style({
   borderRadius: margin.siderail,
   overflow: 'hidden',
   aspectRatio: '2 / 1',
+  animation: `${fadeIn} 0.6s ease 1.5s backwards`,
 })
 
 export const image = style({

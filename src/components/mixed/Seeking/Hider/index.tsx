@@ -10,6 +10,7 @@ import { useEffect, useRef } from 'react'
 import { calcRemainMilliSeconds } from '../../../../util/game'
 import { container } from './index.css'
 import Score from './Score'
+import { simpleAnimate } from '../../../../util/commonKeyframes.css'
 
 export type HiderProps = {
   uuid: string
@@ -17,6 +18,8 @@ export type HiderProps = {
   game: Game
   socketRef: React.MutableRefObject<ReconnectingWebSocket | undefined>
 }
+
+export const initDuration = 5
 
 const Hider: React.FC<HiderProps> = ({ uuid, code, game, socketRef }) => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
@@ -49,19 +52,41 @@ const Hider: React.FC<HiderProps> = ({ uuid, code, game, socketRef }) => {
     }
   }, [code, game, socketRef, uuid])
   return (
-    <GlobalWrapper gradient>
+    <GlobalWrapper>
       <div className={container}>
         <Paragraph>
-          <Plain text="データをアップロード中。" />
-          <Strong text="その場に" />
-          <Plain text="とどまって、できる限り多くのデータを送信せよ。" />
+          <div className={simpleAnimate.slideIn}>
+            <Plain text="データをアップロード中。" />
+          </div>
+          <div
+            className={simpleAnimate.slideIn}
+            style={{ animationDelay: '0.6s' }}
+          >
+            <Strong text="その場に" />
+          </div>
+          <div
+            className={simpleAnimate.slideIn}
+            style={{ animationDelay: '0.9s' }}
+          >
+            <Plain text="とどまって、できる限り多くのデータを送信せよ。" />
+          </div>
         </Paragraph>
-        <ContentWithLabel title="今送信しているデータ量">
-          <Score since={game.seek!.since} />
-        </ContentWithLabel>
-        <ContentWithLabel title="アップロードされたデータの総量">
-          <GameProgress {...{ game }} />
-        </ContentWithLabel>
+        <div
+          className={simpleAnimate.fadeIn}
+          style={{ animationDelay: '1.8s' }}
+        >
+          <ContentWithLabel title="今回送信しているデータ量">
+            <Score since={game.seek!.since} />
+          </ContentWithLabel>
+        </div>
+        <div
+          className={simpleAnimate.fadeIn}
+          style={{ animationDelay: '2.4s' }}
+        >
+          <ContentWithLabel title="アップロードされたデータの総量">
+            <GameProgress {...{ game }} />
+          </ContentWithLabel>
+        </div>
       </div>
     </GlobalWrapper>
   )

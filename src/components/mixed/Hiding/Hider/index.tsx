@@ -23,11 +23,11 @@ const extraDuration = 5
 const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
   const [scanReseult, setScanResult] = useState('')
   const [isTimeover, setIsTimeover] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+  const sendRef = useRef(false)
 
   useEffect(() => {
-    if (scanReseult) {
-      timeoutRef.current = setTimeout(() => {
+    if (scanReseult && !sendRef.current) {
+      setTimeout(() => {
         socketRef.current?.send(
           JSON.stringify({
             uuid,
@@ -47,10 +47,7 @@ const Hider: React.FC<HideProps> = ({ uuid, code, game, socketRef }) => {
           })
         )
       }, 3000)
-
-      return () => {
-        clearTimeout(timeoutRef.current)
-      }
+      sendRef.current = true
     }
   }, [code, game, scanReseult, socketRef, uuid])
 
