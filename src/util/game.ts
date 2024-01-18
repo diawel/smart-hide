@@ -9,8 +9,9 @@ export const calcTotalScore = (game: Game) => {
   let totalScore = 0
   for (const uuid in game.players) totalScore += game.players[uuid].score
   if (game.seek)
-    totalScore += milliSecondsToGb(
-      Date.now() - game.seek.since - initDuration * 1000
+    totalScore += Math.max(
+      milliSecondsToGb(Date.now() - game.seek.since - initDuration * 1000),
+      0
     )
   return totalScore
 }
