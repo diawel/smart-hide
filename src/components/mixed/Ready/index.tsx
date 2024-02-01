@@ -34,7 +34,7 @@ const Ready: React.FC<ReadyProps> = ({ uuid, code, game, socketRef }) => {
             className={simpleAnimate.slideIn}
             style={{ animationDelay: '1.5s' }}
           >
-            <Plain text="をして買った者が、ディスクを持ち出すことができる。" />
+            <Plain text="をして勝った者が、ディスクを持ち出すことができる。" />
           </div>
         </Paragraph>
         <div
