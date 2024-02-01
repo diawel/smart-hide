@@ -116,7 +116,7 @@ const Play: React.FC = () => {
   useEffect(() => {
     if (game?.state == 'preparing') {
       let allReady = false
-      if (Object.keys(game.players).length >= 3) {
+      if (Object.keys(game.players).length >= 2) {
         allReady = true
         for (const each in game.players) {
           if (game.players[each].state == 'preparing') {
